@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "029e89e2-2c44-436d-96ef-b53522c1b37d",
+		"name": "teenyopds",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32765571"
+	},
+	"item": [
+		{
+			"name": "Catalog",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/catalog",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"catalog"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

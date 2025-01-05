@@ -9,14 +9,14 @@
   <title>{{ catalog.title }}</title>
 
   {% if catalog.author_name or catalog.author_url %}
-  <author>
-    {% if catalog.author_name %}
-    <name>{{ catalog.author_name }}</name>
-    {% endif %}
-    {% if catalog.author_url %}
-    <uri>{{ catalog.author_url }}</uri>
-    {% endif %}
-  </author>
+    <author>
+      {% if catalog.author_name %}
+        <name>{{ catalog.author_name }}</name>
+      {% endif %}
+      {% if catalog.author_url %}
+        <uri>{{ catalog.author_url }}</uri>
+      {% endif %}
+    </author>
   {% endif %}
 
   <link rel="start" href="{{ catalog.root_url }}" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>

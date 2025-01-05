@@ -2,6 +2,7 @@ import os
 from uuid import uuid4
 from urllib.parse import quote
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from flask import url_for
 from .entry import Entry
 from .link import Link
 
@@ -27,16 +28,19 @@ class Catalog(object):
     def add_entry(self, entry):
         self.entries.append(entry)
 
-    def render(self):
+    def render(self, view_mode="list"):
         env = Environment(
             loader=FileSystemLoader(
                 searchpath=os.path.join(os.path.dirname(__file__), "templates")
             ),
             autoescape=select_autoescape(["html", "xml"]),
         )
-        template = env.get_template("catalog.opds.jinja2")
-        return template.render(catalog=self)
 
+        # Pass url_for to the Jinja2 environment
+        env.globals['url_for'] = url_for
+
+        template = env.get_template("catalog.opds.jinja2")
+        return template.render(catalog=self, view_mode=view_mode)
 
 def fromdir(root_url, url, content_base_path, content_relative_path):
     path = os.path.join(content_base_path, content_relative_path)

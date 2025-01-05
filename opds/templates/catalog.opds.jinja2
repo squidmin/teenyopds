@@ -4,8 +4,10 @@
       xmlns:ov="http://open.vocab.org/terms/"
       xmlns:oz="http://openzim.org/terms/"
       xmlns:opds="http://opds-spec.org/2010/catalog">
+
   <id>urn:uuid:{{ catalog.id }}</id>
   <title>{{ catalog.title }}</title>
+
   {% if catalog.author_name or catalog.author_url %}
   <author>
     {% if catalog.author_name %}
@@ -16,24 +18,37 @@
     {% endif %}
   </author>
   {% endif %}
-  <link rel="start"
-        href="{{ catalog.root_url }}"
-        type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
-  <link rel="self"
-        href="{{ catalog.url }}"
-        type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
 
-  {% for entry in catalog.entries %}
-  <entry>
-    <title>{{ entry.title }}</title>
-    <id>{{ entry.id }}</id>
-    {% if entry.updated %} <updated>{{ entry.updated }}</updated> {% endif %}
-    {% for link in entry.links %}
-    <link rel="{{ link.rel }}"
-          href="{{ link.href }}"
-          type="{{ link.type }}"/>
-    {% endfor %}
-  </entry>
-  {% endfor %}
+  <link rel="start" href="{{ catalog.root_url }}" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+  <link rel="self" href="{{ catalog.url }}" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
+  <!-- Toggle between List and Grid view -->
+  <div class="view-toggle">
+    <a href="?view=list">List View</a> | <a href="?view=grid">Grid View</a>
+  </div>
+
+  {% if view_mode == 'grid' %}
+    <div class="grid">
+      {% for entry in catalog.entries %}
+        <div class="grid-item">
+          <h3>{{ entry.title }}</h3>
+          {% for link in entry.links %}
+            <a href="{{ link.href }}" type="{{ link.type }}">{{ link.rel }}</a>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <ul class="list">
+      {% for entry in catalog.entries %}
+        <li>
+          <h3>{{ entry.title }}</h3>
+          {% for link in entry.links %}
+            <a href="{{ link.href }}" type="{{ link.type }}">{{ link.rel }}</a>
+          {% endfor %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 </feed>

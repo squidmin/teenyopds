@@ -36,8 +36,11 @@ def send_content(path):
 @app.route("/catalog/<path:path>")
 @auth.login_required
 def catalog(path=""):
+    # Check for view_mode parameter in the URL query string
+    view_mode = request.args.get("view", "list")  # default to 'list' view
     c = fromdir(request.root_url, request.url, config.CONTENT_BASE_DIR, path)
-    return c.render()
+    return c.render(view_mode=view_mode)
+
 
 
 if __name__ == "__main__":

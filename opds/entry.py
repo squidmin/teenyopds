@@ -20,6 +20,8 @@ class Entry(object):
         "authors",
         "formats",
         "links",
+        "isbn",
+        "is_folder",
     )
 
     required_keys = ("id", "title", "links")
@@ -39,6 +41,8 @@ class Entry(object):
         self.id = kwargs["id"]
         self.title = kwargs["title"]
         self.links = kwargs["links"]
+        self.isbn = kwargs.get("isbn", [])
+        self.is_folder = kwargs.get("is_folder", False)
         self._data = kwargs
 
     def get(self, key):

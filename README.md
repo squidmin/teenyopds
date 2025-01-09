@@ -10,6 +10,7 @@ docker build . -t teenyopds
 
 ```bash
 docker run -p 5000:5000 \
+  -e GOOGLE_BOOKS_API_KEY=${GOOGLE_BOOKS_API_KEY} \
   -v /path/to/content:/library \
   teenyopds
 ```

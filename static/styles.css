@@ -29,3 +29,46 @@
   -webkit-line-clamp: 2;        /* Limit to 2 lines */
   -webkit-box-orient: vertical; /* Enable multi-line truncation */
 }
+
+/* List View Styles */
+.list {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.list-item {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 16px;
+  width: 100%;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+.list-item h3 {
+  margin: 0 0 10px 0;
+}
+
+.folder-icon {
+  font-size: 1.5em;
+  margin-right: 10px;
+}
+
+.list-item p {
+  font-size: 1em;
+  color: #333;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .list-item {
+    padding: 12px;
+  }
+
+  .list-item h3 {
+    font-size: 1.1em;
+  }
+}
+

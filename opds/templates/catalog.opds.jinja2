@@ -27,15 +27,44 @@
     <a href="?view=list">List View</a> | <a href="?view=grid">Grid View</a>
   </div>
 
+  {% if view_mode == 'list' %}
+    <div class="list">
+      {% for entry in catalog_entries %}
+        <div class="list-item">
+          <h3>{{ entry.title }}</h3>
+
+          {% if entry.is_folder %}
+            <!-- Folder entry: no ISBN, no link, and show a folder icon -->
+            <p><i class="folder-icon">📁</i> This is a folder.</p>
+          {% else %}
+            <!-- File entry: show ISBNs and link -->
+            {% if entry.isbn %}
+              <p>ISBN: {{ entry.isbn | join(", ") }}</p>
+            {% else %}
+              <p>No ISBN available</p>
+            {% endif %}
+            {% for link in entry.links %}
+              <a href="{{ link.href }}" type="{{ link.type }}">{{ link.rel }}</a>
+            {% endfor %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
   {% if view_mode == 'grid' %}
     <div class="grid">
       {% for entry in catalog_entries %}
         <div class="grid-item">
           <h3>{{ entry.title }}</h3>
-          {% if entry.isbn %}
-            <p>ISBN: {{ entry.isbn | join(", ") }}</p>
+          {% if entry.is_folder %}
+            <p><i class="folder-icon">📁</i> This is a folder.</p>
           {% else %}
-            <p>No ISBN available</p>
+            {% if entry.isbn %}
+              <p>ISBN: {{ entry.isbn | join(", ") }}</p>
+            {% else %}
+              <p>No ISBN available</p>
+            {% endif %}
           {% endif %}
           {% for link in entry.links %}
             <a href="{{ link.href }}" type="{{ link.type }}">{{ link.rel }}</a>
@@ -43,21 +72,5 @@
         </div>
       {% endfor %}
     </div>
-  {% else %}
-    <ul class="list">
-      {% for entry in catalog_entries %}
-        <li>
-          <h3>{{ entry.title }}</h3>
-          {% if entry.isbn %}
-            <p>ISBN: {{ entry.isbn | join(", ") }}</p>
-          {% else %}
-            <p>No ISBN available</p>
-          {% endif %}
-          {% for link in entry.links %}
-            <a href="{{ link.href }}" type="{{ link.type }}">{{ link.rel }}</a>
-          {% endfor %}
-        </li>
-      {% endfor %}
-    </ul>
   {% endif %}
 </feed>

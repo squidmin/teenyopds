@@ -56,7 +56,7 @@ def fromdir(root_url, url, content_base_path, content_relative_path):
             rel="subsection",
             type="application/atom+xml;profile=opds-catalog;kind=acquisition",
         )
-        c.add_entry(Entry(title=dirname, id=uuid4(), links=[link]))
+        c.add_entry(Entry(title=dirname, id=uuid4(), links=[link], is_folder=True))  # Mark as folder
 
     onlyfiles = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
     print(onlyfiles)
@@ -66,7 +66,7 @@ def fromdir(root_url, url, content_base_path, content_relative_path):
             rel="http://opds-spec.org/acquisition",
             type=mimetype(filename),
         )
-        c.add_entry(Entry(title=filename.split(".")[0], id=uuid4(), links=[link]))
+        c.add_entry(Entry(title=filename.split(".")[0], id=uuid4(), links=[link], is_folder=False))  # Mark as file
     return c
 
 

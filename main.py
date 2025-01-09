@@ -1,3 +1,5 @@
+import os
+
 import config
 import requests
 from flask import Flask, jsonify, send_from_directory, request
@@ -11,6 +13,8 @@ app = Flask(__name__, static_url_path="", static_folder="static")
 auth = HTTPBasicAuth()
 
 CONTENT_BASE_DIR = '/library'
+
+books_cache = {}
 
 
 @app.route("/check_and_update_isbns", methods=["POST"])
@@ -108,8 +112,8 @@ def isbn_lookup():
 
 def get_isbn_from_google_books(title):
     """Fetch ISBN from Google Books API based on book title."""
-    title = quote_plus(title)  # URL encode the title to handle spaces and special characters
-    url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{title}&maxResults=1"
+    title = quote_plus(title)
+    url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{title}&maxResults=1&key={os.getenv('GOOGLE_BOOKS_API_KEY')}"
     print(f"Fetching ISBN for: {title} | URL: {url}")  # Debugging: Log the request URL
     response = requests.get(url)
 

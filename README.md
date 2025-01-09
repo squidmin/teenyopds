@@ -1,5 +1,7 @@
 # teenyopds
 
+[![CI](https://github.com/squidmin/teenyopds/actions/workflows/ci.yml/badge.svg)](https://github.com/squidmin/teenyopds/actions/workflows/ci.yml)
+
 Small flask based opds catalog designed to serve a directory via OPDS, it has currently only been verified to work with KyBook 3 on iOS but should work with other OPDS compatible ereaders.
 
 ## Quickstart

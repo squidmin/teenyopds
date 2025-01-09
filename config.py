@@ -11,5 +11,5 @@ if TEENYOPDS_ADMIN_PASSWORD:
     }
 else:
     print(
-        "WANRNING: admin password not configured - catalog will be exposed was public"
+        "WARNING: admin password not configured - catalog will be exposed was public"
     )

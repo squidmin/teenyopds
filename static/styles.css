@@ -1,0 +1,74 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust grid to fill the space */
+  gap: 16px;  /* Space between grid items */
+  padding: 16px;  /* Padding around the grid */
+}
+
+.grid-item {
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;      /* Border around each grid item */
+  border-radius: 8px;           /* Rounded corners */
+  padding: 16px;                /* Padding inside the box */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Optional: Add shadow for depth */
+  background-color: #fff;       /* Ensure the background is white for the card */
+  text-align: center;           /* Center the content inside the box */
+  max-width: 200px;             /* Set a max width to prevent excessive stretching */
+}
+
+.grid-item h3 {
+  font-size: 1.2em;
+  margin: 0;
+  white-space: normal;          /* Allow text to wrap normally for multi-word titles */
+  overflow: hidden;             /* Hide overflowed text */
+  text-overflow: ellipsis;      /* Add ellipsis (...) for long titles */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;        /* Limit to 2 lines */
+  -webkit-box-orient: vertical; /* Enable multi-line truncation */
+}
+
+/* List View Styles */
+.list {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.list-item {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 16px;
+  width: 100%;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+.list-item h3 {
+  margin: 0 0 10px 0;
+}
+
+.folder-icon {
+  font-size: 1.5em;
+  margin-right: 10px;
+}
+
+.list-item p {
+  font-size: 1em;
+  color: #333;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .list-item {
+    padding: 12px;
+  }
+
+  .list-item h3 {
+    font-size: 1.1em;
+  }
+}
+

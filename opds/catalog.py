@@ -4,6 +4,7 @@ from urllib.parse import quote
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from .entry import Entry
 from .link import Link
+from flask import url_for
 
 
 class Catalog(object):
@@ -27,15 +28,16 @@ class Catalog(object):
     def add_entry(self, entry):
         self.entries.append(entry)
 
-    def render(self):
+    def render(self, view_mode=None, catalog_entries=None):
         env = Environment(
             loader=FileSystemLoader(
                 searchpath=os.path.join(os.path.dirname(__file__), "templates")
             ),
             autoescape=select_autoescape(["html", "xml"]),
         )
+        env.globals['url_for'] = url_for
         template = env.get_template("catalog.opds.jinja2")
-        return template.render(catalog=self)
+        return template.render(catalog=self, view_mode=view_mode, catalog_entries=catalog_entries)
 
 
 def fromdir(root_url, url, content_base_path, content_relative_path):
@@ -54,7 +56,7 @@ def fromdir(root_url, url, content_base_path, content_relative_path):
             rel="subsection",
             type="application/atom+xml;profile=opds-catalog;kind=acquisition",
         )
-        c.add_entry(Entry(title=dirname, id=uuid4(), links=[link]))
+        c.add_entry(Entry(title=dirname, id=uuid4(), links=[link], is_folder=True))  # Mark as folder
 
     onlyfiles = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
     print(onlyfiles)
@@ -64,7 +66,7 @@ def fromdir(root_url, url, content_base_path, content_relative_path):
             rel="http://opds-spec.org/acquisition",
             type=mimetype(filename),
         )
-        c.add_entry(Entry(title=filename.split(".")[0], id=uuid4(), links=[link]))
+        c.add_entry(Entry(title=filename.split(".")[0], id=uuid4(), links=[link], is_folder=False))  # Mark as file
     return c
 
 

@@ -1,6 +1,5 @@
-import os
-
 import config
+import os
 import requests
 from flask import Flask, jsonify, send_from_directory, request
 from flask_httpauth import HTTPBasicAuth
@@ -42,28 +41,6 @@ def check_and_update_isbns():
         return jsonify({"error": "Failed to update ISBN data"}), 500
 
 
-@auth.verify_password
-def verify_password(username, password):
-    if not config.TEENYOPDS_ADMIN_PASSWORD:
-        return True
-    elif username in config.users and check_password_hash(
-            config.users.get(username), password
-    ):
-        return username
-
-
-@app.route("/")
-@app.route("/healthz")
-def healthz():
-    return "ok"
-
-
-@app.route("/content/<path:path>")
-@auth.login_required
-def send_content(path):
-    return send_from_directory(config.CONTENT_BASE_DIR, path)
-
-
 @app.route("/catalog")
 @app.route("/catalog/<path:path>")
 @auth.login_required
@@ -74,7 +51,12 @@ def catalog(path=""):
     catalog_entries = []
     for entry in c.entries:
         title = entry.title
-        isbn = get_isbn_from_google_books(title)
+        if title in books_cache:
+            isbn = books_cache[title]
+        else:
+            isbn = get_isbn_from_google_books(title)
+            books_cache[title] = isbn
+
         entry.isbn = isbn if isbn else []
         catalog_entries.append(entry)
 
@@ -91,18 +73,14 @@ def isbn_lookup():
         if not book_titles:
             return jsonify({"error": "No book titles provided"}), 400
 
-        books_data = {}
         result = {}
         for title in book_titles:
-            if title in books_data and books_data[title]:
-                result[title] = books_data[title]
+            if title in books_cache and books_cache[title]:
+                result[title] = books_cache[title]
             else:
                 isbns = get_isbn_from_google_books(title)
                 result[title] = isbns
-                if isbns:
-                    books_data[title] = isbns
-                else:
-                    books_data[title] = []
+                books_cache[title] = isbns
 
         return jsonify(result)
 
@@ -137,6 +115,28 @@ def get_isbn_from_google_books(title):
     if not isbn_list:
         print(f"No ISBN found for {title}")  # Debugging: Log if no ISBN is found
     return isbn_list
+
+
+@auth.verify_password
+def verify_password(username, password):
+    if not config.TEENYOPDS_ADMIN_PASSWORD:
+        return True
+    elif username in config.users and check_password_hash(
+            config.users.get(username), password
+    ):
+        return username
+
+
+@app.route("/")
+@app.route("/healthz")
+def healthz():
+    return "ok"
+
+
+@app.route("/content/<path:path>")
+@auth.login_required
+def send_content(path):
+    return send_from_directory(config.CONTENT_BASE_DIR, path)
 
 
 if __name__ == "__main__":

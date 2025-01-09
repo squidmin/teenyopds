@@ -29,9 +29,14 @@
 
   {% if view_mode == 'grid' %}
     <div class="grid">
-      {% for entry in catalog.entries %}
+      {% for entry in catalog_entries %}
         <div class="grid-item">
           <h3>{{ entry.title }}</h3>
+          {% if entry.isbn %}
+            <p>ISBN: {{ entry.isbn | join(", ") }}</p>
+          {% else %}
+            <p>No ISBN available</p>
+          {% endif %}
           {% for link in entry.links %}
             <a href="{{ link.href }}" type="{{ link.type }}">{{ link.rel }}</a>
           {% endfor %}
@@ -40,9 +45,14 @@
     </div>
   {% else %}
     <ul class="list">
-      {% for entry in catalog.entries %}
+      {% for entry in catalog_entries %}
         <li>
           <h3>{{ entry.title }}</h3>
+          {% if entry.isbn %}
+            <p>ISBN: {{ entry.isbn | join(", ") }}</p>
+          {% else %}
+            <p>No ISBN available</p>
+          {% endif %}
           {% for link in entry.links %}
             <a href="{{ link.href }}" type="{{ link.type }}">{{ link.rel }}</a>
           {% endfor %}

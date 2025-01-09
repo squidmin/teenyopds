@@ -4,9 +4,21 @@ Small flask based opds catalog designed to serve a directory via OPDS, it has cu
 
 ## Quickstart
 
-`docker build . -t teenyopds`
+```bash
+docker build . -t teenyopds
+```
 
-`docker run -p 5000:5000 -v /path/to/content:/library teenyopds`
+```bash
+docker run -p 5000:5000 \
+  -v /path/to/content:/library \
+  teenyopds
+```
+
+For example:
+
+```bash
+docker run -p 5000:5000 -v /Users/admin/Documents/07_books:/library teenyopds
+```
 
 Navigate to `http://localhost:5000/catalog` to view opds catalog
 
@@ -27,9 +39,9 @@ The following environment variables can be set
 Any reader that supports OPDS should work, however the following have been verified to work/not work
 
 | App                                                                                                   | Android | iOS |
-| ----------------------------------------------------------------------------------------------------- | ------- | --- |
+|-------------------------------------------------------------------------------------------------------|---------|-----|
 | [KyBook 3](http://kybook-reader.com/)                                                                 | -       | ✔️  |
-| Aldiko Next                                                                                           | ❌      | ✔️  |
+| Aldiko Next                                                                                           | ❌       | ✔️  |
 | [PocketBook](https://pocketbook.ch/en-ch/app)                                                         | -       | ✔️  |
 | [Moon+ Reader](https://play.google.com/store/apps/details?id=com.flyersoft.moonreader&hl=en_US&gl=US) | ✔️      | -   |
 

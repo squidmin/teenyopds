@@ -24,6 +24,53 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Check and update isbns",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/check_and_update_isbns",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"check_and_update_isbns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ISBN lookup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"book_titles\": [\n        \"Cracking the Coding Interview\",\n        \"The Algorithm Design Manual\",\n        \"progit\",\n        \"Effective Modern C++\"\n    ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/isbn_lookup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"isbn_lookup"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
